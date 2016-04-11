@@ -65,6 +65,19 @@ split([], [], []).
 split([X|Rest1],[X|Rest2],D):- pari(X), !, split(Rest1, Rest2, D).
 split([X|Rest1],P,[X|Rest2]):- split(Rest1, P, Rest2), !.
 
+/* ESERCIZIO 7 */
+/* prefisso(Pre,L) la lista Pre è un prefisso della lista L. */
+/* Prefissi della lista [1,2,3] -> [],[1],[1,2],[1,2,3] */
+prefisso([],_):-!.
+prefisso([Y|RestPre],[X|Rest]):-[Y|RestPre]=X; Y=X, prefisso(RestPre, Rest).
+
+/* ESERCIZIO 8 */
+/* suffisso(Suf,L) la lista Suf è un suffisso della lista L. Ad esempio [1,2,3] -> [],[3],[2,3],[1,2,3] */
+suffisso([],[]):-!.
+suffisso([Y|RestSuf], [X|RestList]):- Y=X, !, suffisso(RestSuf, RestList).
+suffisso([Y|RestSuf], [X|RestList]):- suffisso([Y|RestSuf], RestList); suffisso(RestSuf, [X|RestList]).
+
+
 
 
 
