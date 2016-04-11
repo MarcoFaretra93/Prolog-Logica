@@ -56,5 +56,21 @@ is_max([], Element).
 is_max([X|Tail], Element):-Element>=X, is_max(Tail, Element).
 
 
+/* ESERCIZIO 5 */
+/* avendo definito pari(x), definire split(+L, ?P, ?D)  se L è una lista di interi, P è la lista contenente tutti */
+/* gli elementi pari di L e D tutti quelli dispari (nello stesso ordine in cui occorrono in L) */
+pari(X):- 0 is X mod 2.
+
+split([], [], []).
+split([X|Rest1],[X|Rest2],D):- pari(X), !, split(Rest1, Rest2, D).
+split([X|Rest1],P,[X|Rest2]):- split(Rest1, P, Rest2), !.
+
+
+
+
+
+
+
+
 
 
