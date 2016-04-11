@@ -46,5 +46,15 @@ palindroma([]).
 palindroma([X]).
 palindroma([X|Rest]):-append(H,[X],Rest),palindroma(H).
 
+/* ESERCIZIO 4 */
+/* maxlist(+L,?N) L è una lista di numeri, vero se N è il massimo elemento della lista L, fallisce se L è vuota */
+maxlist([X],X).
+maxlist([X|Rest],X):- is_max(Rest, X).
+maxlist([X|Rest],N):- N>=X, maxlist(Rest, N).
+
+is_max([], Element).
+is_max([X|Tail], Element):-Element>=X, is_max(Tail, Element).
+
+
 
 
