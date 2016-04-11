@@ -77,6 +77,13 @@ suffisso([],[]):-!.
 suffisso([Y|RestSuf], [X|RestList]):- Y=X, !, suffisso(RestSuf, RestList).
 suffisso([Y|RestSuf], [X|RestList]):- suffisso([Y|RestSuf], RestList); suffisso(RestSuf, [X|RestList]).
 
+/* ESERCIZIO 9 */
+/* sublist(S,L) S è una sottolista di L costituita da elementi contigui in L */
+/* Esempio [1,2,3] -> [],[1],[2],[3],[1,2],[2,3],[1,2,3] */
+sublist([],_):-!.
+sublist([Y|Rest], [X|RestList]):-Y=X, !, sublist(Rest, RestList).
+sublist(S, [X|RestList]):-sublist(S, RestList).
+
 
 
 
