@@ -134,3 +134,20 @@ union_with_rep([_|R],[_|R2],L):-union_with_rep(R,R2,L).
 flat([],[]).
 flat([X|Rest],Y):- is_list(X), !, flat(X,R), flat(Rest,S), append(R,S,Y).
 flat([X|Rest],Y):- flat(Rest,R), append([X],R,Y).
+
+/* ESERCIZIO 12 */
+/* cartprod(+A,+B,-Set), vero se A e B sono liste e Set una lista di coppie */
+/* che rappresenta il prodotto cartesiano di A e B */
+cartprod([],_,_):-!.
+cartprod([X],B,Set):- getcomb(X,B,S), append([],S,Set), !.
+cartprod([X|R],B,Set):- getcomb(X,B,S), cartprod(R,B,Z), append(S,Z,Set).
+
+getcomb(_,[],_).
+getcomb(X,[Y],[(X,Y)]):-!.
+getcomb(X,[Y|R],[(X,Y)|R2]):-getcomb(X,R,R2).
+
+/* ESERCIZIO 13 */
+/* insert(X,L1,L2), vero se L2 si ottiene inserendo X in L1 in qualsiasi posizione */
+/* almeno una delle due liste devono essere istanziate */
+insert(X,[],[X]).
+insert(X,[Y|R],L2):-append([X],[Y|R],L2); insert(X,R,S), append([Y],S,L2).
