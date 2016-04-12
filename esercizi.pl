@@ -43,17 +43,14 @@ fact(X,Y):- fact(X1,Y1), X is X1+1, Y is Y1*X.
 /* ESERCIZIO 3 */
 /* palindroma(X), vero se X è una lista palindroma */
 palindroma([]).
-palindroma([X]).
+palindroma([_]).
 palindroma([X|Rest]):-append(H,[X],Rest),palindroma(H).
 
 /* ESERCIZIO 4 */
 /* maxlist(+L,?N) L è una lista di numeri, vero se N è il massimo elemento della lista L, fallisce se L è vuota */
 maxlist([X],X).
-maxlist([X|Rest],X):- is_max(Rest, X), !.
-maxlist([X|Rest],N):- N>=X, maxlist(Rest, N).
-
-is_max([], Element).
-is_max([X|Tail], Element):-Element>=X, is_max(Tail, Element).
+maxlist([T|C],T):- maxlist(C,Y), T>=Y.
+maxlist([T|C],N):- maxlist(C,N), N>T.
 
 
 /* ESERCIZIO 5 */
@@ -82,15 +79,51 @@ suffisso([Y|RestSuf], [X|RestList]):- suffisso([Y|RestSuf], RestList); suffisso(
 /* Esempio [1,2,3] -> [],[1],[2],[3],[1,2],[2,3],[1,2,3] */
 sublist([],_):-!.
 sublist([X|Rest], [X|RestList]):-!, sublist(Rest, RestList).
-sublist(S, [X|RestList]):-sublist(S, RestList).
+sublist(S, [_|RestList]):-sublist(S, RestList).
 
 
+/* ESERCIZIO 10c */
+/* del_first(+X,+L,?Resto) Resto è la lista che si ottiene da L cancellando la prima occorrenza di X */
+del_first(Y,[Y|Rest],Rest):- !.
+del_first(X,[Y|Rest],[Y|Result]):- del_first(X, Rest, Result).
 
 
+/* ESERCIZIO 10a */
+/* subset(+Sub,?Set) Tutti gli elementi di Sub sono anche elementi di Set */
+subset([],_):-!.
+subset([X|C1],[X|C2]):-subset(C1,[X|C2]), !.
+subset([X|C1],[_|C2]):-subset([X|C1],C2).
 
+/* ESERCIZIO 10b */
+/* rev(+X,?Y) Y è la lista che contiene gli stessi elementi di x ma in ordine inverso */
+rev([X],[X]).
+rev([X|Rest1],L):-append(H,[X],L), rev(Rest1,H).
 
+/* ESERCIZIO 10d */
+/* del(+X,+L,?Resto) Resto è la lista che si ottiene da L cancellando le occorrenze di X */
+del(_,[],[]):-!.
+del(X,[X|C],C2):-del(X,C,C2), !.
+del(X,[Y|C],[Y|C2]):-del(X,C,C2).
 
+/* ESERCIZIO 10e */
+/* subst(+X,+Y,+L,-Nuova) Nuova è la lista che si ottiene da L sostituendo tutte */
+/* le occorrenze di X con Y, se X non occorre, Nuova è uguale a L */
+subst(_,_,[],[]):-!.
+subst(X,Y,[X|C],[Y|C1]):-subst(X,Y,C,C1),!.
+subst(A,B,[X|C1],[X|C2]):-subst(A,B,C1,C2).
 
+/* ESERCIZIO 10f */
+/* mkset(+L,-Set) Set è una lista senza ripetizioni che contiene tutti e soli */
+/* gli elementi di L, senza utilizzare list_to_set/2 */
+mkset([],[]).
+mkset([X|Rest],[X|L]):- \+ member(X,Rest),!,mkset(Rest,L).
+mkset([_|Rest],L):- mkset(Rest,L).
 
-
-
+/* ESERCIZIO 10g */
+/* union(+A,+B,-Union) Union è una lista senza ripetizioni che rappresenta l'unione di A e B */
+union(A,B,Union):-union_with_rep(A,B,Result), mkset(Result,Union).
+	/*Funzione di supporto che unisce due liste con repliche */
+union_with_rep([],[],[]).
+union_with_rep([X|R],B,[X|R2]):-union_with_rep(R,B,R2).
+union_with_rep(A,[X|R],[X|R2]):-union_with_rep(A,R,R2).
+union_with_rep([_|R],[_|R2],L):-union_with_rep(R,R2,L).
