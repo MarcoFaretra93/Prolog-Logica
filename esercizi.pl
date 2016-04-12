@@ -79,7 +79,7 @@ suffisso([Y|RestSuf], [X|RestList]):- suffisso([Y|RestSuf], RestList); suffisso(
 /* Esempio [1,2,3] -> [],[1],[2],[3],[1,2],[2,3],[1,2,3] */
 sublist([],_):-!.
 sublist([X|Rest], [X|RestList]):-!, sublist(Rest, RestList).
-sublist(S, [_|RestList]):-sublist(S, RestList).
+sublist(S,[_|RestList]):-sublist(S,RestList).
 
 
 /* ESERCIZIO 10c */
@@ -127,3 +127,10 @@ union_with_rep([],[],[]).
 union_with_rep([X|R],B,[X|R2]):-union_with_rep(R,B,R2).
 union_with_rep(A,[X|R],[X|R2]):-union_with_rep(A,R,R2).
 union_with_rep([_|R],[_|R2],L):-union_with_rep(R,R2,L).
+
+/* ESERCIZIO 11 b */
+/* flat(+X,?Y) che riporti in Y tutti i termini che occorrono in X */
+/* Esempio flat([a,[f(b),10,[c,d]]],Flat). -> Flat = [a,f(b),10,c,d]. */
+flat([],[]).
+flat([X|Rest],Y):- is_list(X), !, flat(X,R), flat(Rest,S), append(R,S,Y).
+flat([X|Rest],Y):- flat(Rest,R), append([X],R,Y).
