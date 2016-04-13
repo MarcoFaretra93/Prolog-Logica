@@ -211,3 +211,9 @@ balanced(t(_,empty,empty)):-!.
 balanced(t(_,Left,empty)):- bin_height(Left,R), R=<1, balanced(Left), !.
 balanced(t(_,empty,Right)):- bin_height(Right,R), R=<1, balanced(Right), !.
 balanced(t(_,Left,Right)):- bin_height(Left,R1), bin_height(Right,R2), Result is R1-R2, (Result >= -1; Result =< 1), balanced(Left), balanced(Right).
+
+/* ESERCIZIO 16f */
+/* branch(+T,?Leaf,?Path) Path è una lista che rappresenta un ramo dalla radice */
+/* fino a una foglia etichettata Leaf */
+branch(t(Leaf,empty,empty),Leaf,[Leaf]).
+branch(t(X,Left,Right),Leaf,[X|Rest]):-branch(Left,Leaf,Rest);branch(Right,Leaf,Rest).
