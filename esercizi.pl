@@ -65,8 +65,8 @@ split([X|Rest1],P,[X|Rest2]):- split(Rest1, P, Rest2), !.
 /* ESERCIZIO 7 */
 /* prefisso(Pre,L) la lista Pre è un prefisso della lista L. */
 /* Prefissi della lista [1,2,3] -> [],[1],[1,2],[1,2,3] */
-prefisso([],_):-!.
-prefisso([Y|RestPre],[X|Rest]):-[Y|RestPre]=X; Y=X, prefisso(RestPre, Rest).
+prefisso([],_).
+prefisso([X|R],[X|R2]):-prefisso(R,R2).
 
 /* ESERCIZIO 8 */
 /* suffisso(Suf,L) la lista Suf è un suffisso della lista L. Ad esempio [1,2,3] -> [],[3],[2,3],[1,2,3] */
@@ -77,9 +77,12 @@ suffisso([Y|RestSuf], [X|RestList]):- suffisso([Y|RestSuf], RestList); suffisso(
 /* ESERCIZIO 9 */
 /* sublist(S,L) S è una sottolista di L costituita da elementi contigui in L */
 /* Esempio [1,2,3] -> [],[1],[2],[3],[1,2],[2,3],[1,2,3] */
-sublist([],_):-!.
-sublist([X|Rest], [X|RestList]):-!, sublist(Rest, RestList).
+sublist([],[]).
+sublist([X|Rest],[X|RestList]):- equal(Rest,RestList).
 sublist(S,[_|RestList]):-sublist(S,RestList).
+
+equal([],_).
+equal([X|R],[X|R2]):-equal(R,R2).
 
 
 /* ESERCIZIO 10c */
@@ -138,12 +141,10 @@ flat([X|Rest],Y):- flat(Rest,R), append([X],R,Y).
 /* ESERCIZIO 12 */
 /* cartprod(+A,+B,-Set), vero se A e B sono liste e Set una lista di coppie */
 /* che rappresenta il prodotto cartesiano di A e B */
-cartprod([],_,_):-!.
-cartprod([X],B,Set):- getcomb(X,B,S), append([],S,Set), !.
+cartprod([],_,[]).
 cartprod([X|R],B,Set):- getcomb(X,B,S), cartprod(R,B,Z), append(S,Z,Set).
 
-getcomb(_,[],_).
-getcomb(X,[Y],[(X,Y)]):-!.
+getcomb(_,[],[]).
 getcomb(X,[Y|R],[(X,Y)|R2]):-getcomb(X,R,R2).
 
 /* ESERCIZIO 13 */
@@ -151,3 +152,18 @@ getcomb(X,[Y|R],[(X,Y)|R2]):-getcomb(X,R,R2).
 /* almeno una delle due liste devono essere istanziate */
 insert(X,[],[X]).
 insert(X,[Y|R],L2):-append([X],[Y|R],L2); insert(X,R,S), append([Y],S,L2).
+
+/* ESERCIZIO 14 */
+/* permut(X,Y) vero se X e Y sono liste e Y è una permutazione di X (senza permutation/2)*/
+permut([],[]).
+permut([X|R],L):-permut(R,P), insert(X,P,L).
+
+/* ESERCIZIO 15 */
+/* search_subset(+IntList,+N,?Set), IntList è una lista di interi positivi */
+/* N un intero positivo, vero se Set è una lista rappresentate un sottoinsieme */
+/* di IntList tale che la somma degli elementi in Set è uguale a N (IntList senza ripetizioni)*/
+search_subset([],0,[]).
+search_subset(R,N,S):- sublist(S,R), sum(S,N).
+
+sum([],0).
+sum([X|R],N):- sum(R,S), N is X+S.
