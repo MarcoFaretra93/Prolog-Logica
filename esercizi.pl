@@ -203,3 +203,11 @@ bin_labels(t(X,empty,empty),[X]):-!.
 bin_labels(t(X,Left,empty),[X|Rest]):- bin_labels(Left,Rest), !.
 bin_labels(t(X,empty,Right),[X|Rest]):- bin_labels(Right,Rest), !.
 bin_labels(t(X,Left,Right),[X|Rest]):- bin_labels(Left,R1),bin_labels(Right,R2),append(R1,R2,Rest).
+
+/* ESERCIZIO 16e */
+/* balanced(+T) T è bilanciato se per ogni nodo n le altezze dei sottoalberi */
+/* sinistro e destro differiscono al massimo di 1 */
+balanced(t(_,empty,empty)):-!.
+balanced(t(_,Left,empty)):- bin_height(Left,R), R=<1, balanced(Left), !.
+balanced(t(_,empty,Right)):- bin_height(Right,R), R=<1, balanced(Right), !.
+balanced(t(_,Left,Right)):- bin_height(Left,R1), bin_height(Right,R2), Result is R1-R2, (Result >= -1; Result =< 1), balanced(Left), balanced(Right).
