@@ -70,9 +70,12 @@ prefisso([X|R],[X|R2]):-prefisso(R,R2).
 
 /* ESERCIZIO 8 */
 /* suffisso(Suf,L) la lista Suf è un suffisso della lista L. Ad esempio [1,2,3] -> [],[3],[2,3],[1,2,3] */
-suffisso([],[]):-!.
-suffisso([X|RestSuf], [X|RestList]):- !, suffisso(RestSuf, RestList).
-suffisso([Y|RestSuf], [X|RestList]):- suffisso([Y|RestSuf], RestList); suffisso(RestSuf, [X|RestList]).
+suffisso([],[]).
+suffisso([X|R],[X|R2]):- samelist(R,R2).
+suffisso(S,[_|R]):-suffisso(S,R).
+
+samelist([],[]).
+samelist([X|R],[X|R2]):-samelist(R,R2).
 
 /* ESERCIZIO 9 */
 /* sublist(S,L) S è una sottolista di L costituita da elementi contigui in L */
