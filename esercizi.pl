@@ -189,3 +189,10 @@ reflect(empty,empty).
 reflect(t(X,Left,empty),t(X,Left,empty)).
 reflect(t(X,empty,Right),t(X,empty,Right)).
 reflect(t(X,Left,Right),t(X,Left,Right)).
+
+/* ESERCIZIO 16c */
+/* bin_size(+T,?N) N è il numero di nodi di T */
+bin_size(t(_,empty,empty),1).
+bin_size(t(_,Left,empty),N):- bin_size(Left,R), !, N is R+1.
+bin_size(t(_,empty,Right),N):- bin_size(Right,R), !, N is R+1.
+bin_size(t(_,Left,Right),N):- bin_size(Left,R1), bin_size(Right,R2), N is 1+R1+R2.
