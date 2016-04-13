@@ -168,3 +168,17 @@ permut([X|R],L):-permut(R,P), insert(X,P,L).
 search_subset([],0,[]).
 search_subset([X|R1],N,[X|R2]):- M is N-X, search_subset(R1,M,R2).
 search_subset([_|R1],N,Set):- search_subset(R1,N,Set).
+
+/* ALBERI BINARI */
+
+/* ESERCIZIO 16a */
+/* bin_height(+T,?N) N è l'altezza di T, il predicato fallisce se T è vuoto */
+/* Esempio albero: t(1, t(2,empty,empty), t(3,t(4,t(5,empty,empty),empty),empty)) */
+bin_height(t(_,empty,empty),0).
+bin_height(t(_,Left,empty),N):-bin_height(Left,R1), N is R1+1.
+bin_height(t(_,empty,Right),N):- bin_height(Right,R1), N is R1+1.
+bin_height(t(_,Left,Right),N):- bin_height(Left,R1), bin_height(Right,R2), R3 is R1+1, R4 is R2+1, max(R3,R4,N).
+
+max(X,X,X).
+max(X,Y,R):- Y>X, R is Y.
+max(X,Y,R):- X>Y, R is X.
