@@ -166,7 +166,5 @@ permut([X|R],L):-permut(R,P), insert(X,P,L).
 /* N un intero positivo, vero se Set è una lista rappresentate un sottoinsieme */
 /* di IntList tale che la somma degli elementi in Set è uguale a N (IntList senza ripetizioni)*/
 search_subset([],0,[]).
-search_subset(R,N,S):- sublist(S,R), sum(S,N).
-
-sum([],0).
-sum([X|R],N):- sum(R,S), N is X+S.
+search_subset([X|R1],N,[X|R2]):- M is N-X, search_subset(R1,M,R2).
+search_subset([_|R1],N,Set):- search_subset(R1,N,Set).
