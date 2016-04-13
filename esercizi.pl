@@ -182,3 +182,10 @@ bin_height(t(_,Left,Right),N):- bin_height(Left,R1), bin_height(Right,R2), R3 is
 max(X,X,X).
 max(X,Y,R):- Y>X, R is Y.
 max(X,Y,R):- X>Y, R is X.
+
+/* ESERCIZIO 16b */
+/* reflect(T,T1), T è l'immagine riflessa di T1. Almeno uno è istanziato */
+reflect(empty,empty).
+reflect(t(X,Left,empty),t(X,Left,empty)).
+reflect(t(X,empty,Right),t(X,empty,Right)).
+reflect(t(X,Left,Right),t(X,Left,Right)).
