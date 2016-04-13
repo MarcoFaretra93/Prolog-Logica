@@ -173,7 +173,7 @@ search_subset([_|R1],N,Set):- search_subset(R1,N,Set).
 
 /* ESERCIZIO 16a */
 /* bin_height(+T,?N) N è l'altezza di T, il predicato fallisce se T è vuoto */
-/* Esempio albero: t(1, t(2,empty,empty), t(3,t(4,t(5,empty,empty),empty),empty)) */
+	/* Esempio albero: t(1, t(2,empty,empty), t(3,t(4,t(5,empty,empty),empty),empty)) */
 bin_height(t(_,empty,empty),0).
 bin_height(t(_,Left,empty),N):-bin_height(Left,R1), N is R1+1.
 bin_height(t(_,empty,Right),N):- bin_height(Right,R1), N is R1+1.
@@ -196,3 +196,10 @@ bin_size(t(_,empty,empty),1).
 bin_size(t(_,Left,empty),N):- bin_size(Left,R), !, N is R+1.
 bin_size(t(_,empty,Right),N):- bin_size(Right,R), !, N is R+1.
 bin_size(t(_,Left,Right),N):- bin_size(Left,R1), bin_size(Right,R2), N is 1+R1+R2.
+
+/* ESERCIZIO 16d */
+/* bin_labels(+T,-L) L è una lista di tutte le etichette dei nodi di T */
+bin_labels(t(X,empty,empty),[X]):-!.
+bin_labels(t(X,Left,empty),[X|Rest]):- bin_labels(Left,Rest), !.
+bin_labels(t(X,empty,Right),[X|Rest]):- bin_labels(Right,Rest), !.
+bin_labels(t(X,Left,Right),[X|Rest]):- bin_labels(Left,R1),bin_labels(Right,R2),append(R1,R2,Rest).
